@@ -1,15 +1,22 @@
 import pygame
 import random
+import os
 
 pygame.init()
 
-hit_sound = pygame.mixer.Sound('sound/target sound.mp3')  # sound for hitting target
+hit_sound = pygame.mixer.Sound('sound/target catch.mp3')  # sound for hitting target
 SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 600
+SCREEN_HEIGHT = 800
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption("Moving Target Game")
-icon = pygame.image.load('img/download.jpeg')
+pygame.display.set_caption("Snitch in Moscow")
+icon = pygame.image.load('img/icon.png')
 pygame.display.set_icon(icon)
+
+# Load custom cursor image
+custom_cursor = pygame.image.load('custom_cursor.png')
+
+# Set the custom cursor
+pygame.mouse.set_cursor(*pygame.cursors.arrow)
 
 target_img = pygame.image.load('img/target.png')
 target_width = 80
@@ -23,7 +30,17 @@ target_speed = 1
 target_direction_x = random.choice([-1, 1])
 target_direction_y = random.choice([-1, 1])
 
-color = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
+#color = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)) background taking whatever unified color
+
+# Load background images
+background_images_dir = 'background'
+background_images = [pygame.image.load(os.path.join(background_images_dir, filename)) for filename in os.listdir(background_images_dir)]#joins the directory with each filename for each file listed in the directory
+
+# Select a random background image
+background = random.choice(background_images)
+
+# Scale background image to fit the screen
+background = pygame.transform.scale(background, (SCREEN_WIDTH, SCREEN_HEIGHT))
 
 # Load font
 font = pygame.font.Font(None, 36)
@@ -34,7 +51,8 @@ clock = pygame.time.Clock()
 points = 0
 
 while running:
-    screen.fill(color)
+    #screen.fill(color)
+    screen.blit(background, (0, 0))  # Draw the background image at coordinate (0,0)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
