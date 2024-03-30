@@ -1,6 +1,8 @@
 import pygame
 import random
 import os
+import sys
+
 
 pygame.init()
 
@@ -12,11 +14,21 @@ pygame.display.set_caption("Snitch in Moscow")
 icon = pygame.image.load('img/icon.png')
 pygame.display.set_icon(icon)
 
-# Load custom cursor image
-custom_cursor = pygame.image.load('custom_cursor.png')
 
-# Set the custom cursor
-pygame.mouse.set_cursor(*pygame.cursors.arrow)
+# Load Cursor Image
+cursor_image = pygame.image.load("img/harry.png").convert_alpha()
+
+# Scale the cursor image to match the required dimensions
+cursor_image = pygame.transform.scale(cursor_image, (80, 60))
+
+# Set Cursor
+pygame.mouse.set_visible(False)  # Hide the system cursor
+cursor_rect = cursor_image.get_rect()
+
+
+
+
+
 
 target_img = pygame.image.load('img/target.png')
 target_width = 80
@@ -53,6 +65,7 @@ points = 0
 while running:
     #screen.fill(color)
     screen.blit(background, (0, 0))  # Draw the background image at coordinate (0,0)
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
@@ -61,6 +74,15 @@ while running:
             if target_x <= mouse_x <= target_x + target_width and target_y <= mouse_y <= target_y + target_height:
                 points += 1
                 hit_sound.play()
+
+    # Get mouse position
+    mouse_position = pygame.mouse.get_pos()
+
+    # Set the position of the cursor image
+    cursor_rect.center = mouse_position
+
+    # Blit the cursor image at the mouse position
+    screen.blit(cursor_image, cursor_rect)
 
     # Update target's position
     target_x += target_speed * target_direction_x
@@ -79,9 +101,12 @@ while running:
     screen.blit(points_text, (10, 10))
     #blits the target image onto the screen
     screen.blit(target_img, (target_x, target_y))
-    pygame.display.update()
+    #pygame.display.update()
+    # Update the display
+    pygame.display.flip()
 
     clock.tick(60)  # Limit frame rate to 60 FPS
 
 
 pygame.quit()
+sys.exit()
