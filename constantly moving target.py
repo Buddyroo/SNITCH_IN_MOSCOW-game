@@ -3,6 +3,7 @@ import random
 
 pygame.init()
 
+hit_sound = pygame.mixer.Sound('sound/target sound.mp3')  # sound for hitting target
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -18,7 +19,7 @@ target_x = random.randint(0, SCREEN_WIDTH - target_width)
 target_y = random.randint(0, SCREEN_HEIGHT - target_height)
 
 # Variables for controlling the target's movement
-target_speed = 2
+target_speed = 1
 target_direction_x = random.choice([-1, 1])
 target_direction_y = random.choice([-1, 1])
 
@@ -41,6 +42,7 @@ while running:
             mouse_x, mouse_y = pygame.mouse.get_pos()
             if target_x <= mouse_x <= target_x + target_width and target_y <= mouse_y <= target_y + target_height:
                 points += 1
+                hit_sound.play()
 
     # Update target's position
     target_x += target_speed * target_direction_x
