@@ -53,7 +53,7 @@ def display_welcome_message():
     pygame.display.flip()
 
     # Wait for 5 seconds
-    pygame.time.delay(3000)
+    pygame.time.delay(10000)
 
 hit_sound = pygame.mixer.Sound('sound/target catch.mp3')  # sound for hitting target
 
@@ -107,7 +107,7 @@ target_direction_y = random.choice([-1, 1])
 
 # Define levels
 levels = [
-    {"duration": 10000},  # Level 1
+    {"duration": 20000},  # Level 1
     {"duration": 10000},  # Level 2
     {"duration": 10000},  # Level 3
     {"duration": 10000},  # Level 4
