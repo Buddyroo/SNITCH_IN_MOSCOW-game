@@ -47,6 +47,9 @@ def display_welcome_message():
 # Load sound for hitting target
 hit_sound = pygame.mixer.Sound('sound/target catch.mp3')
 
+#Next level sound
+level_up_sound = pygame.mixer.Sound('sound/level up sound.mp3')
+
 # Create display
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Snitch in Moscow")
@@ -163,6 +166,7 @@ while running:
 
     if points >= 5:
         level += 1
+
         if level < len(levels):
             target_speed += 1
             background = random.choice(background_images)
@@ -173,6 +177,7 @@ while running:
             points = 0
             target_x = random.randint(0, SCREEN_WIDTH - target_width)
             target_y = random.randint(0, SCREEN_HEIGHT - target_height)
+            level_up_sound.play()
         else:
             running = False
 
