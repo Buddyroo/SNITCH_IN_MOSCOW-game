@@ -64,6 +64,10 @@ level_up_sound_2 = pygame.mixer.Sound('sound/level up sound 2.mp3')
 level_up_sound_3 = pygame.mixer.Sound('sound/level up sound 3.mp3')
 level_sounds = [level_up_sound, level_up_sound_1, level_up_sound_2, level_up_sound_3]
 
+#Main theme sound
+main_theme_sound = pygame.mixer.Sound('sound/main theme.mp3')
+main_theme_sound.play()
+
 
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 800
