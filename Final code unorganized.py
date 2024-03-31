@@ -57,8 +57,13 @@ def display_welcome_message():
 
 hit_sound = pygame.mixer.Sound('sound/target catch.mp3')  # sound for hitting target
 
-#Next level sound
+#Next level sounds
 level_up_sound = pygame.mixer.Sound('sound/level up sound.mp3')
+level_up_sound_1 = pygame.mixer.Sound('sound/level up sound 1.mp3')
+level_up_sound_2 = pygame.mixer.Sound('sound/level up sound 2.mp3')
+level_up_sound_3 = pygame.mixer.Sound('sound/level up sound 3.mp3')
+level_sounds = [level_up_sound, level_up_sound_1, level_up_sound_2, level_up_sound_3]
+
 
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 800
@@ -316,7 +321,8 @@ while running:
 
     # go up a level increasing speed
     if points >= 5:
-        level_up_sound.play()
+        random_level_up_sound = random.choice(level_sounds)
+        random_level_up_sound.play()
         level += 1  # Move to the next level
         if level < len(levels):
             target_speed += 1  # Increase target speed for next level
