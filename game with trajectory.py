@@ -127,21 +127,35 @@ levels = [
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 
-def upper_line_1():
+def upper_line_1():#A1-A2
     y = (mouse_x - prev_target_x)*(target_y-prev_target_y)/(target_x - prev_target_x) + prev_target_y #y for the line at point mouse_x
     if mouse_y >= y:
         return True #means that the mouse is below the line and may belong to trajectory
 
-def bottom_line_1 ():
+def bottom_line_1 ():#B1 - B2
     y = (mouse_x - (prev_target_x+target_width)) * (target_y + target_width - (prev_target_y+target_height)) / (
                     target_x + target_width - (prev_target_x+target_width)) + prev_target_y+target_height  # y for the line at point mouse_x
-        if mouse_y <= y:
-            return True  # means that the mouse is above the line and may belong to trajectory
-def upper_line_2():
-    
+    if mouse_y <= y:
+        return True  # means that the mouse is above the line and may belong to trajectory
+def upper_line_2():#C1 - C2
+    y = (mouse_x - (prev_target_x+target_width))(target_y - prev_target_y)/(
+            target_x+target_width - (prev_target_x + target_width)) + prev_target_y
+    if mouse_y >= y:
+        return True  # means that the mouse is above the line and may belong to trajectory
+def bottom_line_2():#(D1-D2)
+    pass
+    y = (mouse_x - ( + target_width))(target_y - prev_target_y) / (
+            target_x + target_width - (prev_target_x + target_width)) + prev_target_y
+    if mouse_y >= y:
+        return True  # means that the mouse is above the line and may belong to trajectory
 
 
-# Function to display popup message
+
+
+
+
+
+    # Function to display popup message
 def show_popup(message):
     #popup_font = pygame.font.Font(None, 24)
     #popup_surface = pygame.Surface((400, 200))
