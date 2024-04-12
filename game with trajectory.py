@@ -115,12 +115,22 @@ levels = [
     {"duration": 10000},  # Level 2
     {"duration": 10000},  # Level 3
     {"duration": 10000},  # Level 4
-    {"duration": 10000},  # Level 5
-    {"duration": 10000},  # Level 6
-    {"duration": 10000},  # Level 7
-    {"duration": 10000},  # Level 8
-    {"duration": 10000},  # Level 9
-    {"duration": 10000},  # Level 10
+    {"duration": 15000},  # Level 5
+    {"duration": 15000},  # Level 6
+    {"duration": 15000},  # Level 7
+    {"duration": 15000},  # Level 8
+    {"duration": 15000},  # Level 9
+    {"duration": 15000},  # Level 10
+    {"duration": 15000},  # Level 11
+    {"duration": 15000},  # Level 12
+    {"duration": 15000},  # Level 13
+    {"duration": 15000},  # Level 14
+    {"duration": 15000},  # Level 15
+    {"duration": 15000},  # Level 16
+    {"duration": 15000},  # Level 17
+    {"duration": 15000},  # Level 18
+    {"duration": 15000},  # Level 19
+    {"duration": 15000},  # Level 20
 ]
 
 # Define colors
@@ -143,11 +153,10 @@ def upper_line_2():#C1 - C2
     if mouse_y >= y:
         return True  # means that the mouse is above the line and may belong to trajectory
 def bottom_line_2():#(D1-D2)
-    pass
-    y = (mouse_x - ( + target_width))(target_y - prev_target_y) / (
-            target_x + target_width - (prev_target_x + target_width)) + prev_target_y
-    if mouse_y >= y:
-        return True  # means that the mouse is above the line and may belong to trajectory
+    y = ((mouse_x - prev_target_x)*(target_y + target_height - (prev_target_y+target_height))
+         /(target_x-prev_target_x) + prev_target_y + target_height)
+    if mouse_y <= y:
+        return True  # means that the mouse is below the line and may belong to trajectory
 
 
 
@@ -283,13 +292,22 @@ while running:
         if event.type == pygame.QUIT:
             running = False
         if event.type == pygame.MOUSEBUTTONDOWN:
-            if level > 5:
+            if 4< level < 9:
+                mouse_x, mouse_y = pygame.mouse.get_pos()
+                # trajectory_rect = pygame.Rect(min(prev_target_x, target_x), min(prev_target_y, target_y),
+                #                               abs(target_x - prev_target_x) + target_width,
+                #                               abs(target_y - prev_target_y) + target_height)
+                # if trajectory_rect.collidepoint(mouse_x, mouse_y):
+                #     points += 1
+                #     hit_sound.play()
+                #     play_target_animation = True
+                #     animation_timer = pygame.time.get_ticks()
                 if target_x > prev_target_x and target_y < prev_target_y:
                     trajectory_rect = pygame.Rect(prev_target_x, target_y,
                                                   target_x + target_width - prev_target_x,
                                                   prev_target_y+target_height-target_y)
                                                   #create a rectangle that encapsulates both positions
-                    if trajectory_rect.collidepoint(mouse_x, mouse_y) and upper_line_1() and bottom_line_1():
+                    if trajectory_rect.collidepoint(mouse_x, mouse_y): #and upper_line_1() and bottom_line_1():
                         points += 1
                         hit_sound.play()
                         play_target_animation = True
@@ -301,7 +319,7 @@ while running:
                                                   target_x + target_width - prev_target_x,
                                                   prev_target_y+target_height-target_y)
                                                   #create a rectangle that encapsulates both positions
-                    if trajectory_rect.collidepoint(mouse_x, mouse_y) and upper_line_1() and bottom_line_1():
+                    if trajectory_rect.collidepoint(mouse_x, mouse_y):# and upper_line_1() and bottom_line_1():
                         points += 1
                         hit_sound.play()
                         play_target_animation = True
@@ -310,8 +328,34 @@ while running:
                     trajectory_rect = pygame.Rect(prev_target_x, prev_target_y,
                                                   target_x + target_width - prev_target_x,
                                                   target_y + target_height - prev_target_y)
-                    # create a rectangle that encapsulates both positions
+                    if trajectory_rect.collidepoint(mouse_x, mouse_y):# and upper_line_2() and bottom_line_2():
+                        points += 1
+                        hit_sound.play()
+                        play_target_animation = True
+                        animation_timer = pygame.time.get_ticks()
 
+                elif target_x > prev_target_x and target_y > prev_target_y:
+                    target_x, target_y, prev_target_x, prev_target_y = prev_target_x, prev_target_y, target_x, target_y
+                    trajectory_rect = pygame.Rect(prev_target_x, prev_target_y,
+                                                  target_x + target_width - prev_target_x,
+                                                  target_y + target_height - prev_target_y)
+                    if trajectory_rect.collidepoint(mouse_x, mouse_y): #and upper_line_2() and bottom_line_2():
+                        points += 1
+                        hit_sound.play()
+                        play_target_animation = True
+                        animation_timer = pygame.time.get_ticks()
+
+
+            elif level >= 9:
+                mouse_x, mouse_y = pygame.mouse.get_pos()
+                trajectory_rect = pygame.Rect(min(prev_target_x, target_x), min(prev_target_y, target_y),
+                                               abs(target_x - prev_target_x) + target_width,
+                                               abs(target_y - prev_target_y) + target_height)
+                if trajectory_rect.collidepoint(mouse_x, mouse_y):
+                     points += 1
+                     hit_sound.play()
+                     play_target_animation = True
+                     animation_timer = pygame.time.get_ticks()
 
 
 
@@ -364,6 +408,11 @@ while running:
 
     # Blit points text onto the screen at position (10, 10)
     screen.blit(points_text, (10, 10))
+     # Render points as text
+    level_text = font.render("Level: " + str(level), True, (255, 255, 255))
+
+    # Blit points text onto the screen at position (10, 10)
+    screen.blit(level_text, (680, 10))
     #blits the target image onto the screen
     screen.blit(target_img, (target_x, target_y))
 
